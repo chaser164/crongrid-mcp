@@ -1,36 +1,32 @@
-# Sendgrid Cronjob - MCP
+# CronGrid — an MCP server scheduling SendGrid Cron Jobs!
 [![smithery badge](https://smithery.ai/badge/@chaser164/sendgrid-cronjob-mcp)](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp)
 
 ## Description
-This integration provides an MCP server that allows Claude to retrieve and execute cron jobs that schedule email sends via SendGrid.
+This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule email sends via SendGrid. If you ask for a "email to self" or "reminder," the LLM will send an email addressed to the specified SendGrid single sender's email address (an email to itself).
+
+
 
 ## Prerequisites
-- Claude Desktop installed on your local machine.
-- Node.js (version 14 or higher) installed.
+- Claude Desktop (or another MCP server-compatible LLM interface of your choice) installed on your local machine.
+- If using Smithery: [Node.js](https://nodejs.org/en/download) (version 14 or higher) installed
+- If running locally: [uv](https://docs.astral.sh/uv/getting-started/installation/) installed.
+- 
 
-## Configuration
-Before starting the Sendgrid Cronjob - MCP, user-specific configurations are required:
-1. Add the following Environment Variables:
-   - `SENDGRID_API_KEY`: Your `sendgrid.com` API key
-   - `CRONJOB_API_KEY`: Your `cron-job.org` API key
-   - `FROM_EMAIL`: Email address of an authenticated SendGrid single sender identity
-   - `TZ`: Your system's timezone (optional, default is UTC). Choose timezone string from [this list](https://www.w3schools.com/php/php_ref_timezones.asp).
-
-   
 ## Installation
 
 ### Installing via Smithery
 
-To install sendgrid-cronjob-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp):
+To install CronGrid automatically via [Smithery](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp):
 
 ```bash
 npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
 ```
 
 ### Installing Manually
-#### 1. Clone Repository
+
 - Open your terminal or command line.
 - Run `git clone https://github.com/chaser164/sendgrid-cronjob-mcp.git`
+- Add the below to your MCP server-compatible interface of choice (e.g., `~/Library/Application Support/Claude/claude_desktop_config.json`)
 
 ```
 {
@@ -54,6 +50,8 @@ npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
   }
 }
 ```
+
+**NOTE**: timezone environment variable values must be chosen from [this list](https://www.w3schools.com/php/php_ref_timezones.asp). The default timezone value is `UTC`.
 
 ## Usage
 
