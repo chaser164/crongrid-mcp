@@ -2,8 +2,7 @@
 [![smithery badge](https://smithery.ai/badge/@chaser164/sendgrid-cronjob-mcp)](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp)
 
 ## Description
-This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule email sends via SendGrid. If you ask for a "email to self" or "reminder," the LLM will send an email addressed to the specified SendGrid single sender's email address (an email to itself).
-
+This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule email sends via SendGrid.
 
 
 ## Prerequisites
@@ -16,7 +15,7 @@ This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule em
 
 ### Installing via Smithery
 
-To install CronGrid automatically via [Smithery](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp):
+To install CronGrid automatically via [Smithery](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp) (example for Claude Desktop):
 
 ```bash
 npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
@@ -56,7 +55,8 @@ npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
 ## Usage
 
 - Ask your LLM to create, get, and delete scheduled emails
-- If a "to email" is not specified, the mcp will send an email to yourself (e.g., "remind me to dance" will send an email to yourself)
+- This MCP also has the ability to get the current date/time to enhance its scheduling capabilities
+- If a "to email" is not specified, the mcp will send an email to yourself (e.g., "remind me to dance" will send an email to the specified SendGrid sender identity's email address)
 
 ## License
 This project is licensed under the MIT License.
