@@ -1,0 +1,34 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'python', args: ['email-schedule-send-mcp-server.py'], env: { CRONJOB_API_KEY: config.cronjobApiKey, SENDGRID_API_KEY: config.sendgridApiKey, FROM_EMAIL: config.fromEmail, TZ: config.tz } })
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - cronjobApiKey
+      - sendgridApiKey
+      - fromEmail
+    properties:
+      cronjobApiKey:
+        type: string
+        description: API key for cron-job.org
+      sendgridApiKey:
+        type: string
+        description: API key for SendGrid
+      fromEmail:
+        type: string
+        description: Default sender email address
+      tz:
+        type: string
+        default: UTC
+        description: Timezone for scheduling
+  exampleConfig:
+    cronjobApiKey: cron_key_abcdef123456
+    sendgridApiKey: sendgrid_key_abcdef123456
+    fromEmail: user@example.com
+    tz: UTC
