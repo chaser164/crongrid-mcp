@@ -2,7 +2,7 @@
 [![smithery badge](https://smithery.ai/badge/@chaser164/sendgrid-cronjob-mcp)](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp)
 
 ## Description
-This integration provides an MCP server that allows Claude to retrieve and execute cron jobs from the SendGrid API on a user-specified interval.
+This integration provides an MCP server that allows Claude to retrieve and execute cron jobs that schedule email sends via SendGrid.
 
 ## Prerequisites
 - Claude Desktop installed on your local machine.
@@ -11,8 +11,11 @@ This integration provides an MCP server that allows Claude to retrieve and execu
 ## Configuration
 Before starting the Sendgrid Cronjob - MCP, user-specific configurations are required:
 1. Add the following Environment Variables:
-   - `SENDGRID_API_KEY`: Your SendGrid API key.
-   - `CRON_INTERVAL`: The desired interval for cron jobs in cron format.
+   - `SENDGRID_API_KEY`: Your `sendgrid.com` API key
+   - `CRONJOB_API_KEY`: Your `cron-job.org` API key
+   - `FROM_EMAIL`: Email address of an authenticated SendGrid single sender identity
+   - `TZ`: Your system's timezone (optional, default is UTC). Choose timezone string from [this list](https://www.w3schools.com/php/php_ref_timezones.asp).
+
    
 ## Installation
 
@@ -29,21 +32,33 @@ npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
 - Open your terminal or command line.
 - Run `git clone https://github.com/chaser164/sendgrid-cronjob-mcp.git`
 
-#### 2. Install Dependencies
-In the root directory of the cloned repository, run `npm install` to install the necessary dependencies.
-
-#### 3. Run the Server
-After installing dependencies, run `node index.js` to start the MCP server.
+```
+{
+  "mcpServers": {
+    "cronjob_email_mcp": {
+      "command": "/path/to/uv",
+      "args": [
+        "--directory",
+        "/path/to/sendgrid-cronjob-mcp",
+        "run",
+        "email-schedule-send-mcp-server.py"
+      ],
+      "env": {
+        "SENDGRID_API_KEY": "<SendGrid API key>",
+        "CRONJOB_API_KEY": "<Cron Job API key>",
+        "FROM_EMAIL": "<SendGrid sender identity email>"
+        "TZ": "<timezone value>",
+      }
+      
+    }
+  }
+}
+```
 
 ## Usage
-- Follow the configuration guide described above.
-- Launch Claude and use the MCP client to connect to the Sendgrid Cronjob - MCP server.
-- Define a prompt to interact with the cron jobs retrieved from SendGrid.
 
-## Troubleshooting
-- Ensure environment variables are set correctly.
-- Verify if `node` and `npm` are installed and available in the system PATH.
-- Check connectivity between Claude and the MCP server.
+- Ask your LLM to create, get, and delete scheduled emails
+- If a "to email" is not specified, the mcp will send an email to yourself (e.g., "remind me to dance" will send an email to yourself)
 
 ## License
 This project is licensed under the MIT License.

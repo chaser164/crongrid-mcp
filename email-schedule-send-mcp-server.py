@@ -1,6 +1,7 @@
 from typing import Any
 import httpx
 import os
+import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from mcp.server.fastmcp import FastMCP
@@ -22,6 +23,10 @@ if TZ not in pytz.all_timezones:
     print(f"Warning: Invalid timezone: {TZ}. Using UTC. please change the TZ environment variable to a valid timezone")
     USING_BACKUP_TZ = True
     TZ = "UTC"
+
+FROM_EMAIL = os.getenv("FROM_EMAIL")
+if not FROM_EMAIL:
+    print("Warning: FROM_EMAIL environment variable is not set. Emails will not be sent to a specific address.")
 
 CRONJOB_API_BASE = "https://api.cron-job.org"
 
@@ -66,7 +71,7 @@ async def delete_scheduled_email(job_id: str) -> str:
     url = f"{CRONJOB_API_BASE}/jobs/{job_id}"
     result = await make_cronjob_request("DELETE", url)
     
-    if "error" not in result:
+    if result and "error" not in result:
         return f"Successfully deleted cron job {job_id}"
     else:
         return f"Failed to delete cron job {job_id}"
@@ -109,7 +114,7 @@ async def create_scheduled_email_send_at_specific_time(
     wdays: list[int],
     timezone: str = TZ,
     expires_at: int = 0, # 0 = never expires
-    to_email: str = None,
+    to_email: str = "",
     repeating: bool = False
 ) -> str:
     """This tool creates a new scheduled email cron job at a specified date(s)/time(s) in cronjob format, setting up a cron-job that calls an email-sending API. The scheduled email can either be a one-time email or a recurring email.
@@ -155,16 +160,12 @@ async def create_scheduled_email_send_at_specific_time(
     sendgrid_api_key = os.getenv("SENDGRID_API_KEY")
     if not sendgrid_api_key:
         return "Error: SENDGRID_API_KEY environment variable is required"
-
-    from_email = os.getenv("FROM_EMAIL")
-    if not from_email:
-        return "Error: FROM_EMAIL environment variable is required"
     
     url = f"{CRONJOB_API_BASE}/jobs"
 
     # set to_email to from_email if not provided (email to self)
-    if to_email is None:
-        to_email = from_email
+    if not to_email or to_email.strip() == "" or to_email == None:
+        to_email = FROM_EMAIL
     
     job_data = {
         "job": {
@@ -186,7 +187,12 @@ async def create_scheduled_email_send_at_specific_time(
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {sendgrid_api_key}"
                 },
-                "body": f'{{"personalizations": [{{"to": [{{"email": "{to_email}"}}]}}],"from": {{"email": "{from_email}"}},"subject": "{subject}","content": [{{"type": "text/plain", "value": "{body}"}}]}}'
+                "body": str(json.dumps({
+                    "personalizations": [{"to": [{"email": to_email}]}],
+                    "from": {"email": FROM_EMAIL},
+                    "subject": subject,
+                    "content": [{"type": "text/plain", "value": body}]
+                }))
             }
         }
     }
@@ -219,7 +225,7 @@ async def get_current_datetime() -> str:
         current_time = datetime.now(tz)
         ret_string = f"Current time in {TZ}: {current_time.strftime('%A, %Y-%m-%d %H:%M:%S %Z')}"
         if USING_BACKUP_TZ:
-            ret_string += f"\n\Please warn user of invalid timezone: {TZ}. Using UTC as fallback. please change the TZ environment variable to a valid timezone"
+            ret_string += f"\nPlease warn user of invalid timezone: {TZ}. Using UTC as fallback. please change the TZ environment variable to a valid timezone"
         return ret_string
     except Exception as e:
         return f"Error: Unable to get current time: {str(e)}"
@@ -229,4 +235,3 @@ if __name__ == "__main__":
     # Initialize and run the server
     print(f"Email scheduler server starting...")
     mcp.run(transport='stdio')
-    
