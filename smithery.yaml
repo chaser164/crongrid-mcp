@@ -19,10 +19,10 @@ startCommand:
         description: API key for cron-job.org
       sendgridApiKey:
         type: string
-        description: API key for SendGrid
+        description: API key for sendgrid.com
       fromEmail:
         type: string
-        description: Default sender email address
+        description: SendGrid verified single sender email address
       tz:
         type: string
         default: UTC

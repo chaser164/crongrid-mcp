@@ -40,8 +40,8 @@ npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
       ],
       "env": {
         "SENDGRID_API_KEY": "<SendGrid API key>",
-        "CRONJOB_API_KEY": "<Cron Job API key>",
-        "FROM_EMAIL": "<SendGrid sender identity email>"
+        "CRONJOB_API_KEY": "<Cron-Job.Org API key>",
+        "FROM_EMAIL": "<SendGrid verified single sender email>"
         "TZ": "<timezone value>",
       }
       
