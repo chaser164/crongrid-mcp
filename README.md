@@ -1,5 +1,5 @@
 # CronGrid — an MCP server scheduling SendGrid Cron Jobs!
-[![smithery badge](https://smithery.ai/badge/@chaser164/sendgrid-cronjob-mcp)](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp)
+[![smithery badge](https://smithery.ai/badge/@chaser164/crongrid-mcp)](https://smithery.ai/server/@chaser164/crongrid-mcp)
 
 ## Description
 This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule email sends via SendGrid.
@@ -15,7 +15,7 @@ This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule em
 
 ### Installing via Smithery
 
-To install CronGrid automatically via [Smithery](https://smithery.ai/server/@chaser164/sendgrid-cronjob-mcp) (example for Claude Desktop):
+To install CronGrid automatically via [Smithery](https://smithery.ai/server/@chaser164/crongrid-mcp) (example for Claude Desktop):
 
 ```bash
 npx -y @smithery/cli install @chaser164/sendgrid-cronjob-mcp --client claude
