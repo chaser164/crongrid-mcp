@@ -6,10 +6,11 @@ This MCP server enables LLMs to POST, GET, and DELETE cron jobs that schedule em
 
 
 ## Prerequisites
-- Claude Desktop (or another MCP server-compatible LLM interface of your choice) installed on your local machine.
+- Claude Desktop (or another MCP server-compatible LLM interface of your choice) installed on your local machine
 - If using Smithery: [Node.js](https://nodejs.org/en/download) (version 14 or higher) installed
-- If running locally: [uv](https://docs.astral.sh/uv/getting-started/installation/) installed.
-- 
+- If running locally: [uv](https://docs.astral.sh/uv/getting-started/installation/) installed
+- [SendGrid](https://sendgrid.com/en-us) account with verified single sender email address
+- [Cron-Job.Org](https://cron-job.org/en/) account
 
 ## Installation
 
