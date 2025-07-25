@@ -26,7 +26,7 @@ startCommand:
       tz:
         type: string
         default: UTC
-        description: Timezone for scheduling (confirming to IANA timezone database)
+        description: Timezone for scheduling, conforming to IANA timezone string
   exampleConfig:
     cronjobApiKey: cron_key_abcdef123456
     sendgridApiKey: sendgrid_key_abcdef123456
